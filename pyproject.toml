@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "wordlejj"
+version = "0.1.0"
+description = ""
+authors = ["Francisco Javier Arceo <franciscojavierarceo@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+Django = "3.2.13"
+dj-database-url = "^0.5.0"
+psycopg2-binary = "^2.9.3"
+whitenoise = {extras = ["brotli"], version = "^6.2.0"}
+gunicorn = "^20.1.0"
+tweepy = "^4.10.0"
+detoxify = "^0.5.0"
+crispy-bootstrap5 = "^0.6"
+celery = "^5.2.7"
+redis = "^4.3.4"
+pytest-django = "^4.5.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
