@@ -5,4 +5,12 @@ To get started simply
 ```
 poetry install
 poetry shell
+python manage.py migrate
+python manage.py runserver
 ```
+
+The Django Project is called `wjj` and the Wordle App
+is called `wordle`.
+
+
+
