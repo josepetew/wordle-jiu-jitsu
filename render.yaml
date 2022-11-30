@@ -1,0 +1,21 @@
+databases:
+  - name: wordlejj
+    databaseName: wordlejj
+    user: wordlejj
+
+services:
+  - type: web
+    name: wordlejj
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn wjj.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: wordlejj
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+
