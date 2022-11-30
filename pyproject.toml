@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "wordlejj"
+name = "wjj"
 version = "0.1.0"
 description = ""
 authors = ["Francisco Javier Arceo <franciscojavierarceo@users.noreply.github.com>"]
