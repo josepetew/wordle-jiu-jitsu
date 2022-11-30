@@ -2,11 +2,13 @@ databases:
   - name: wordlejj
     databaseName: wordlejj
     user: wordlejj
+    plan: free
 
 services:
   - type: web
     name: wordlejj
     env: python
+    plan: free
     buildCommand: "./build.sh"
     startCommand: "gunicorn wjj.wsgi:application"
     envVars:
