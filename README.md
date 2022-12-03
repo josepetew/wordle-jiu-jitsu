@@ -3,6 +3,7 @@ A wordle like web app to improve your Brazilian jiu-jitsu.
 
 To get started simply
 ```
+export $(xargs < .env)
 poetry install
 poetry shell
 python manage.py migrate
@@ -52,3 +53,21 @@ BJJ Wordle 810 3/5 🤙
 🟩🟩🟩🟩🟩🟩 🤝
 
 https://wordlejj.onrender.com/
+
+
+# The Frontend
+The FE was developed largely based on SaaS Pegasus' guide on React and Django
+available [here](https://www.saaspegasus.com/guides/modern-javascript-for-django-developers/).
+
+To get things behaving you simply have to run:
+```
+npm init -y
+npm install webpack webpack-cli --save-dev
+npm run dev
+python manage.py collectstatic
+```
+To compile new JS you just have to run
+```
+npm run dev
+python manage.py collectstatic
+```
