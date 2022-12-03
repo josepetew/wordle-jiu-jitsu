@@ -1,0 +1,27 @@
+{
+  "name": "wordle-jiu-jitsu",
+  "version": "1.0.0",
+  "description": "A wordle like web app to improve your Brazilian jiu-jitsu.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franciscojavierarceo/wordle-jiu-jitsu.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/franciscojavierarceo/wordle-jiu-jitsu/issues"
+  },
+  "homepage": "https://github.com/franciscojavierarceo/wordle-jiu-jitsu#readme",
+  "devDependencies": {
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0"
+  }
+}
