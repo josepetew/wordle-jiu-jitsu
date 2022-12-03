@@ -71,3 +71,6 @@ To compile new JS you just have to run
 npm run dev
 python manage.py collectstatic
 ```
+Note using:
+node version 19.2.0
+npm version 8.19.3
