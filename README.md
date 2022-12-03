@@ -74,3 +74,11 @@ python manage.py collectstatic
 Note using:
 node version 19.2.0
 npm version 8.19.3
+```
+nvm use 19.2.0
+```
+
+To compile everything from the FE simply run: 
+```
+npm run dev && python manage.py collectstatic --no-input
+```
