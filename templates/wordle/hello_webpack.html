@@ -5,7 +5,10 @@
     <title>Getting Started with Django and Webpack</title>
   </head>
   <body>
-    <div id="root"/>
+    <div id="root"></div>
+    <script>
+        var xdata = JSON.parse("{{data|escapejs}}");
+    </script>
     <script src="{% static 'index-bundle.js' %}"></script>
   </body>
 </html>
