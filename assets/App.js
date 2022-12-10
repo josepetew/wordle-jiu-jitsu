@@ -15,7 +15,7 @@ import {
   ShareButton,
 } from "./styled";
 import { BackspaceIcon } from "./icons";
-//import "./App.css";
+import "./App.css";
 import { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 
