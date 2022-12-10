@@ -15,7 +15,7 @@ import {
   ShareButton,
 } from "./styled";
 import { BackspaceIcon } from "./icons";
-import "./App.css";
+//import "./App.css";
 import { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 
@@ -159,7 +159,7 @@ function App() {
 
   const enterGuess = async (pressedKey) => {
     if (pressedKey === "enter" && !guesses[round.current].includes("")) {
-      const validWord = await fetchWord(guesses[round.current].join(""));
+      const validWord = false ; //await fetchWord(guesses[round.current].join(""));
 
       if (Array.isArray(validWord)) {
         submit();
