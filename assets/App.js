@@ -73,6 +73,7 @@ function App() {
   };
 
   const submit = () => {
+    console.log('form submitted');
     const _round = round.current;
 
     const updatedMarkers = {
