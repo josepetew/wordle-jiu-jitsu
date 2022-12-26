@@ -63,6 +63,8 @@ function App() {
   });
   const [isModalVisible, setModalVisible] = useState(false);
   const [isShared, setIsShared] = useState(false);
+  //const [isModalVisible, setModalVisible] = useState(false);
+  //const [isShared, setIsShared] = useState(false);
 
   let letterIndex = useRef(0);
   let round = useRef(0);
@@ -144,6 +146,7 @@ function App() {
   };
 
   const publish = (pressedKey) => {
+    console.log('running publish')
     const _letterIndex = letterIndex.current;
     const _round = round.current;
 
@@ -159,15 +162,20 @@ function App() {
   };
 
   const enterGuess = async (pressedKey) => {
+    console.log("pressed " + pressedKey);
     if (pressedKey === "enter" && !guesses[round.current].includes("")) {
-      const validWord = false ; //await fetchWord(guesses[round.current].join(""));
+      //const validWord = true; //await fetchWord(guesses[round.current].join(""));
+      const validWord = false; //await fetchWord(guesses[round.current].join(""));
 
+        console.log("validWord " + validWord);
       if (Array.isArray(validWord)) {
+        console.log("isvalid" + validWord);
         submit();
       }
     } else if (pressedKey === "backspace") {
       erase();
     } else if (pressedKey !== "enter") {
+      console.log("hit enter");
       publish(pressedKey);
     }
   };
@@ -187,7 +195,7 @@ function App() {
   };
 
   const copyMarkers = () => {
-    let shareText = `Wordle ${getDayOfYear()}`;
+    let shareText = `Wordle Jiu Jitsu ${getDayOfYear()}`;
     let shareGuesses = "";
 
     const amountOfGuesses = Object.entries(markers)
@@ -235,7 +243,7 @@ function App() {
   return (
     <>
       <Main>
-        <Header>WORDLE</Header>
+        <Header>WORDLE JIU JITSU</Header>
         <GameSection>
           <TileContainer>
             {Object.values(guesses).map((word, wordIndex) => (
