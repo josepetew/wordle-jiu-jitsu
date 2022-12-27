@@ -146,7 +146,6 @@ function App() {
   };
 
   const publish = (pressedKey) => {
-    console.log('running publish')
     const _letterIndex = letterIndex.current;
     const _round = round.current;
 
@@ -164,8 +163,7 @@ function App() {
   const enterGuess = async (pressedKey) => {
     console.log("pressed " + pressedKey);
     if (pressedKey === "enter" && !guesses[round.current].includes("")) {
-      //const validWord = true; //await fetchWord(guesses[round.current].join(""));
-      const validWord = false; //await fetchWord(guesses[round.current].join(""));
+      const validWord = await fetchWord(guesses[round.current].join(""));
 
         console.log("validWord " + validWord);
       if (Array.isArray(validWord)) {
