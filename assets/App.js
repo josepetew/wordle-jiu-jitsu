@@ -21,11 +21,7 @@ import Modal from "react-modal";
 
 const API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en";
 
-const keyboardRows = [
-  ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-  ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
-  ["enter", "z", "x", "c", "v", "b", "n", "m", "backspace"],
-];
+var keyboardRows = xdata ;
 
 const allKeys = keyboardRows.flat();
 
