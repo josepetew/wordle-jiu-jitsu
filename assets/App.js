@@ -59,8 +59,6 @@ function App() {
   });
   const [isModalVisible, setModalVisible] = useState(false);
   const [isShared, setIsShared] = useState(false);
-  //const [isModalVisible, setModalVisible] = useState(false);
-  //const [isShared, setIsShared] = useState(false);
 
   let letterIndex = useRef(0);
   let round = useRef(0);
@@ -71,7 +69,6 @@ function App() {
   };
 
   const submit = () => {
-    console.log('form submitted');
     const _round = round.current;
 
     const updatedMarkers = {
@@ -157,19 +154,15 @@ function App() {
   };
 
   const enterGuess = async (pressedKey) => {
-    console.log("pressed " + pressedKey);
     if (pressedKey === "enter" && !guesses[round.current].includes("")) {
       const validWord = await fetchWord(guesses[round.current].join(""));
 
-        console.log("validWord " + validWord);
       if (Array.isArray(validWord)) {
-        console.log("isvalid" + validWord);
         submit();
       }
     } else if (pressedKey === "backspace") {
       erase();
     } else if (pressedKey !== "enter") {
-      console.log("hit enter");
       publish(pressedKey);
     }
   };
@@ -237,7 +230,7 @@ function App() {
   return (
     <>
       <Main>
-        <Header>WORDLE JIU JITSU</Header>
+        <Header>WORDLE JITSU</Header>
         <GameSection>
           <TileContainer>
             {Object.values(guesses).map((word, wordIndex) => (
