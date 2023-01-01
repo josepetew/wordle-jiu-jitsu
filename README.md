@@ -82,3 +82,7 @@ To compile everything from the FE simply run:
 ```
 npm run dev && python manage.py collectstatic --no-input
 ```
+
+## Thanks
+
+The Wordle App was largely taken from [Kris Gardner's Repo](https://github.com/krisgardiner/wordle). Big thanks to him.
