@@ -14,5 +14,9 @@ class WebpackView(TemplateView):
         data = [{'a': 'this is a prompt'}, {'b': 'another one'}]
         data = {'head': 'this is a prompt'}
         data = {"prompt": str(sequence)}
-        print(data)
+        data = [
+            ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+            ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+            ["enter", "z", "x", "c", "v", "b", "n", "m", "backspace"],
+        ]
         return {'data': json.dumps(data)}
