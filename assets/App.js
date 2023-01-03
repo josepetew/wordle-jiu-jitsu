@@ -21,7 +21,7 @@ import Modal from "react-modal";
 
 const API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en";
 
-var keyboardRows = xdata ;
+var keyboardRows = xdata.random_sequence;
 
 const allKeys = keyboardRows.flat();
 
@@ -69,6 +69,7 @@ function App() {
   };
 
   const submit = () => {
+    console.log('pressed submit');
     const _round = round.current;
 
     const updatedMarkers = {
@@ -155,9 +156,11 @@ function App() {
 
   const enterGuess = async (pressedKey) => {
     if (pressedKey === "enter" && !guesses[round.current].includes("")) {
-      const validWord = await fetchWord(guesses[round.current].join(""));
+      console.log('pressed submit');
+      const validWord = []; //await fetchWord(guesses[round.current].join(""));
 
       if (Array.isArray(validWord)) {
+        console.log('valid word');
         submit();
       }
     } else if (pressedKey === "backspace") {
