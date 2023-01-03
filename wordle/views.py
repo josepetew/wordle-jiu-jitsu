@@ -19,7 +19,7 @@ class WebpackView(TemplateView):
 
     def get_context_data(self, **kwargs):
         data = {}
-        sequence = MoveSequence.objects.get(id=1)
+        sequence = MoveSequence.objects.get(game_id=1)
         positions= [
             sequence.starting_position,
             sequence.position_2, 
