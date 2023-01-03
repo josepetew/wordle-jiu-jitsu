@@ -97,6 +97,10 @@ export const KeyboardButton = styled.button`
   padding: 0;
   margin: 0 6px 0 0;
   height: 58px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
   ${({ item }) => (item ? `flex: ${item};` : `flex: 1;`)}
 
   border: 0;
