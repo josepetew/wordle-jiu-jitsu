@@ -179,7 +179,7 @@ function App() {
   };
 
   const copyMarkers = () => {
-    let shareText = `Wordle Jiu Jitsu ${getDayOfYear()}`;
+    let shareText = `Wordle Jitsu ${getDayOfYear()} 🤙`;
     let shareGuesses = "";
 
     const amountOfGuesses = Object.entries(markers)

@@ -55,7 +55,7 @@ export const Tile = styled.div`
   align-items: center;
 
   border: 2px solid #3a3a3c;
-  font-size: 3.2rem;
+  font-size: 1.2rem;
   font-weight: bold;
   line-height: 3.2rem;
   text-transform: uppercase;
