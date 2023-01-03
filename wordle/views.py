@@ -1,4 +1,5 @@
 import json
+import random
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from .models import Move, MoveSequence
@@ -17,6 +18,7 @@ class WebpackView(TemplateView):
     template_name = "wordle/hello_webpack.html"
 
     def get_context_data(self, **kwargs):
+        data = {}
         sequence = MoveSequence.objects.get(id=1)
         positions= [
             sequence.starting_position,
@@ -35,14 +37,14 @@ class WebpackView(TemplateView):
             p0 = _get_name(p)
             if p:
                 sequence_data.append(p0)
+        
+        random_sequence = sequence_data.copy()
+        random.shuffle(random_sequence)
+        random_sequence.append('enter')
+        data = {
+            'true_sequence': [sequence_data],
+            'random_sequence': [random_sequence],
+        }
+        print(data)
 
-        print(sequence_data)
-        data = [{'a': 'this is a prompt'}, {'b': 'another one'}]
-        data = {'head': 'this is a prompt'}
-        data = {"prompt": str(sequence)}
-        data = [
-            ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-            ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
-            ["enter", "z", "x", "c", "v", "b", "n", "m", "backspace"],
-        ]
-        return {'data': json.dumps([sequence_data])}
+        return {'data': json.dumps(data)}

@@ -22,19 +22,14 @@ import Modal from "react-modal";
 const API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en";
 
 var keyboardRows = xdata.random_sequence;
-
+const wordLength = xdata.true_sequence.flat().length;
 const allKeys = keyboardRows.flat();
 
-const wordLength = 5;
-
-const newGame = {
-  0: Array.from({ length: wordLength }).fill(""),
-  1: Array.from({ length: wordLength }).fill(""),
-  2: Array.from({ length: wordLength }).fill(""),
-  3: Array.from({ length: wordLength }).fill(""),
-  4: Array.from({ length: wordLength }).fill(""),
-  5: Array.from({ length: wordLength }).fill(""),
-};
+var temp = {};
+for (var i = 0; i < wordLength; i +=1 ) {
+    temp[i] = Array.from({ length: wordLength }).fill("");
+}
+const newGame = temp;
 
 const fetchWord = (word) => {
   return fetch(`${API_URL}/${word}`, {
@@ -46,17 +41,14 @@ const fetchWord = (word) => {
 };
 
 function App() {
-  const wordOfTheDay = "money";
+  const wordOfTheDay =  xdata.true_sequence.join("_");
 
   const [guesses, setGuesses] = useState({ ...newGame });
-  const [markers, setMarkers] = useState({
-    0: Array.from({ length: wordLength }).fill(""),
-    1: Array.from({ length: wordLength }).fill(""),
-    2: Array.from({ length: wordLength }).fill(""),
-    3: Array.from({ length: wordLength }).fill(""),
-    4: Array.from({ length: wordLength }).fill(""),
-    5: Array.from({ length: wordLength }).fill(""),
-  });
+  var temp2 = {};
+  for (var i = 0; i < wordLength; i +=1 ) {
+      temp2[i] = Array.from({ length: wordLength }).fill("");
+  }
+  const [markers, setMarkers] = useState( temp2 );
   const [isModalVisible, setModalVisible] = useState(false);
   const [isShared, setIsShared] = useState(false);
 
@@ -76,12 +68,14 @@ function App() {
       ...markers,
     };
 
-    const tempWord = wordOfTheDay.split("");
+    const tempWord = wordOfTheDay.split(",");
+    console.log('goal', tempWord);
 
     const leftoverIndices = [];
 
     // Prioritize the letters in the correct spot
     tempWord.forEach((letter, index) => {
+      console.log('letter index', letter, index);
       const guessedLetter = guesses[_round][index];
 
       if (guessedLetter === letter) {
