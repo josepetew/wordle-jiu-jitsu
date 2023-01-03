@@ -85,7 +85,6 @@ export const KeyboardSection = styled.section`
 export const KeyboardRow = styled.div`
   width: 100%;
   margin: 0 auto 8px;
-
   display: flex;
   align-items: center;
   justify-content: space-around;
