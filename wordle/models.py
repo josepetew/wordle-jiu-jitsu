@@ -11,7 +11,7 @@ class Move(models.Model):
         blank=False, null=False, max_length=200
     ) 
     description = models.CharField(
-        blank=False, null=False, max_length=200
+        blank=True, null=True, max_length=200
     ) 
 
     def __str__(self):
