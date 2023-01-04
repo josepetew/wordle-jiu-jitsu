@@ -20,7 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 
 const API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en";
-
+var tweetUrl = '';
 var keyboardRows = xdata.random_sequence;
 const wordLength = xdata.true_sequence.flat().length;
 const allKeys = keyboardRows.flat();
@@ -203,6 +203,8 @@ function App() {
       });
 
     shareText += ` ${amountOfGuesses.length}/6\n${shareGuesses}`;
+    const encodedText = encodeURIComponent(shareText + "\n");
+    tweetUrl = `https://twitter.com/intent/tweet?text=${encodedText}&url=https%3A%2F%2Fwordlejitsu.com`;
 
     navigator.clipboard.writeText(shareText);
     setIsShared(true);
@@ -278,7 +280,7 @@ function App() {
           <ShareModal>
             <Heading>You win!</Heading>
             <Row>
-              <h3>Share</h3>
+              <h3><a target="_blank" href={tweetUrl}>Tweet it!</a></h3>
               <ShareButton onClick={copyMarkers} disabled={isShared}>
                 {isShared ? "Copied!" : "Share"}
               </ShareButton>
