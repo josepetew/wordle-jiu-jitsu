@@ -280,7 +280,7 @@ function App() {
           <ShareModal>
             <Heading>You win!</Heading>
             <Row>
-              <h3><a target="_blank" href={tweetUrl}>Tweet it!</a></h3>
+              <h3><a onClick={copyMarkers} target="_blank" href={tweetUrl}>Tweet it!</a></h3>
               <ShareButton onClick={copyMarkers} disabled={isShared}>
                 {isShared ? "Copied!" : "Share"}
               </ShareButton>
