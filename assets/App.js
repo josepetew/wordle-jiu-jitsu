@@ -58,6 +58,7 @@ function App() {
   const win = () => {
     document.removeEventListener("keydown", handleKeyDown);
     setModalVisible(true);
+    setTweetUrl();
   };
 
   const submit = () => {
@@ -177,8 +178,8 @@ function App() {
 
     enterGuess(pressedKey);
   };
-
-  const copyMarkers = () => {
+  
+  const generateShareText = () => {
     let shareText = `Wordle Jitsu ${getDayOfYear()} 🤙`;
     let shareGuesses = "";
 
@@ -203,9 +204,19 @@ function App() {
       });
 
     shareText += ` ${amountOfGuesses.length}/6\n${shareGuesses}`;
+    return shareText;
+  };
+  const setTweetUrl = () => {
+    let shareText = generateShareText()
+    console.log('set tweet', shareText);
     const encodedText = encodeURIComponent(shareText + "\n");
-    tweetUrl = `https://twitter.com/intent/tweet?text=${encodedText}&url=https%3A%2F%2Fwordlejitsu.com`;
-
+    let url= `https://twitter.com/intent/tweet?text=${encodedText}&url=https%3A%2F%2Fwordlejitsu.com`;
+    console.log('tweet url', url);
+    return url;
+  };
+  const copyMarkers = () => {
+    let shareText = generateShareText()
+    console.log('copy', shareText);
     navigator.clipboard.writeText(shareText);
     setIsShared(true);
   };
@@ -280,7 +291,7 @@ function App() {
           <ShareModal>
             <Heading>You win!</Heading>
             <Row>
-              <h3><a onClick={copyMarkers} target="_blank" href={tweetUrl}>Tweet it!</a></h3>
+              <h3><a target="_blank" href={setTweetUrl}>Tweet it!</a></h3>
               <ShareButton onClick={copyMarkers} disabled={isShared}>
                 {isShared ? "Copied!" : "Share"}
               </ShareButton>
