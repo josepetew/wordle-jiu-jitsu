@@ -14,6 +14,12 @@ def _get_name(x):
     except:
         pass
 
+def _get_id(x):
+    try:
+        return x.id
+    except:
+        pass
+
 class WebpackView(TemplateView):
     template_name = "wordle/hello_webpack.html"
 
@@ -32,14 +38,21 @@ class WebpackView(TemplateView):
             sequence.position_9,
             sequence.ending_position,
         ]
-        sequence_data = []
+        sequence_data, sequence_ids = [], []
         for p in positions:
             p0 = _get_name(p)
+            p1 = _get_id(p)
             if p:
                 sequence_data.append(p0)
+                sequence_ids.append(p1)
         
+        n =  10 - len(sequence_data) 
         random_sequence = sequence_data.copy()
         random.shuffle(random_sequence)
+        extra_positions = [j for j in Move.objects.exclude(id__in=sequence_ids)]
+        random.shuffle(extra_positions)
+        for position in extra_positions[0:n]:
+            random_sequence.append(position.name)
         random_sequence.append('enter')
         data = {
             'true_sequence': [sequence_data],
