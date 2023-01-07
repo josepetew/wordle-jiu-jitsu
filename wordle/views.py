@@ -53,7 +53,9 @@ class WebpackView(TemplateView):
         random.shuffle(extra_positions)
         for position in extra_positions[0:n]:
             random_sequence.append(position.name)
-        random_sequence.append('enter')
+
+        #random_sequence = [random_sequence[0:5], random_sequence[5:]]
+        #random_sequence[1].append('enter')
         data = {
             'true_sequence': [sequence_data],
             'random_sequence': [random_sequence],
