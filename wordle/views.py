@@ -55,9 +55,9 @@ class WebpackView(TemplateView):
             random_sequence.append(position.name)
 
         random_sequence = [
-            random_sequence[0:3], 
-            random_sequence[3:6],
-            random_sequence[6:],
+            random_sequence[0:4], 
+            random_sequence[4:9],
+            random_sequence[9:],
         ]
         random_sequence[2].append('enter')
         data = {

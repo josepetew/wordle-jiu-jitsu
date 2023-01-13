@@ -22,11 +22,6 @@ import Modal from "react-modal";
 const API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en";
 var tweetUrl = '';
 var keyboardRows = xdata.random_sequence;
-var keyboardRows2 = [
-  ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-  ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
-  ["enter", "z", "x", "c", "v", "b", "n", "m", "backspace"],
-];
 
 const wordLength = xdata.true_sequence.flat().length;
 const allKeys = keyboardRows.flat();
