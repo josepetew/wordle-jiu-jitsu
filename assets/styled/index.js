@@ -80,27 +80,35 @@ export const KeyboardSection = styled.section`
   width: 100%;
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  overflow-y: scroll;
 `;
 
 export const KeyboardRow = styled.div`
-  width: 100%;
-  margin: 0 auto 8px;
+  width: 90%;
+  height: auto;
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  padding: 0 0 0 0;
+  overflow-y: scroll;
 `;
 
 export const KeyboardButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0;
+  padding: 5px;
   margin: 0 6px 0 0;
-  height: 58px;
+  min-height: 58px;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   flex-direction: row;
+  white-space: normal;
 
   ${({ item }) => (item ? `flex: ${item};` : `flex: 1;`)}
 
@@ -117,6 +125,17 @@ export const KeyboardButton = styled.button`
   &:last-of-type {
     margin: 0;
   }
+  @media (max-width: 767px) {
+  .KeyboardButton {
+    width: 100%;
+    height: auto;
+    font-size: 18px;
+    padding: 5px;
+  }
+  span.text {
+    padding: 2px;
+  }
+
 `;
 
 export const Flex = styled.div`
