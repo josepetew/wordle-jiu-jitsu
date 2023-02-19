@@ -78,6 +78,7 @@ export const Tile = styled.div`
 export const KeyboardSection = styled.section`
   height: 200px;
   width: 100%;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -88,9 +89,10 @@ export const KeyboardSection = styled.section`
 
 export const KeyboardRow = styled.div`
   width: 90%;
-  height: auto;
+  height: fit-content(20em);
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   padding: 0 0 0 0;
@@ -101,7 +103,7 @@ export const KeyboardButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px;
+  padding: 5px ;
   margin: 0 6px 0 0;
   min-height: 58px;
   width: 100%;

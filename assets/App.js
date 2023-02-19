@@ -7,13 +7,14 @@ import {
   Tile,
   KeyboardSection,
   KeyboardRow,
-  KeyboardButton,
+   KeyboardButton,
   Flex,
   ShareModal,
   Heading,
   Row,
   ShareButton,
 } from "./styled";
+//import KeyboardButton from "./styled/KeyboardButton";
 import { BackspaceIcon } from "./icons";
 import "./App.css";
 import { useEffect, useRef, useState } from "react";
