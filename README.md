@@ -10,6 +10,7 @@ python manage.py migrate
 python manage.py runserver
 python manage.py createsuperuser
 ```
+Go to http://localhost:8000/admin and login to add data to the backend!
 
 The Django Project is called `wjj` and the Wordle App
 is called `wordle`.
