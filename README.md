@@ -9,6 +9,7 @@ poetry shell
 python manage.py migrate
 python manage.py runserver
 python manage.py createsuperuser
+python manage runserver
 ```
 Go to http://localhost:8000/admin and login to add data to the backend!
 
