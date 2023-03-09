@@ -8,6 +8,7 @@ poetry install
 poetry shell
 python manage.py migrate
 python manage.py runserver
+python manage.py createsuperuser
 ```
 
 The Django Project is called `wjj` and the Wordle App
