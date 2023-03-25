@@ -25,7 +25,7 @@ export const Home = () => {
         <Spacer />
         {!currentRoundSequence && (
           // We will remove this later, user doesn't have to see it.
-          <p>No game found, make django sure server is running</p>
+          <p>No game found, make sure django server is running</p>
         )}
         {currentRoundSequence && (
           <SequenceContainer>
