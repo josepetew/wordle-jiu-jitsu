@@ -47,7 +47,7 @@ will be victorious.
 You can then share your score by hitting the share button, which will copy the 
 following:
 
-BJJ Wordle 810 3/5 🤙
+Wordle Jitsu 810 3/5 🤙
 
 ⬛⬛⬛⬛⬛⬛ 👊
 
