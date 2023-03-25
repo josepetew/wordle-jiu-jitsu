@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .import views 
+from .views import index, get_sequence_items
+from django.conf.urls.static import static
+
 
 urlpatterns = [
-    path('', views.WebpackView.as_view(), name='webpack'),
+     path("", index, name="index"),
+     path('sequence', get_sequence_items),
+
 ]

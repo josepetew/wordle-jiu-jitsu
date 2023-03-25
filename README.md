@@ -62,17 +62,16 @@ https://wordlejj.onrender.com/
 The FE was developed largely based on SaaS Pegasus' guide on React and Django
 available [here](https://www.saaspegasus.com/guides/modern-javascript-for-django-developers/).
 
+NOTE: Make sure django server is running before running the frontend.
+
 To get things behaving you simply have to run:
 ```
-npm init -y
-npm install webpack webpack-cli --save-dev
+npm i
 npm run dev
-python manage.py collectstatic
 ```
 To compile new JS you just have to run
 ```
-npm run dev
-python manage.py collectstatic
+npm run export
 ```
 Note using:
 node version 19.2.0
