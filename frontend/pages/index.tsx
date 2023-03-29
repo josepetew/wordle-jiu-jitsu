@@ -1,6 +1,9 @@
 import Head from 'next/head'
-import { Home } from '@/components/Home/Home'
+import { Game } from '@/components/Game/Game'
 import GameProvider from '@/providers/GameProvider/GameProvider'
+import { ThemeProvider } from 'styled-components'
+import { defaultTheme } from '@/theme'
+import { ModalProvider } from 'styled-react-modal'
 
 export default function Index() {
   return (
@@ -11,9 +14,13 @@ export default function Index() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <GameProvider>
-        <Home />
-      </GameProvider>
+      <ThemeProvider theme={defaultTheme}>
+        <ModalProvider>
+          <GameProvider>
+            <Game />
+          </GameProvider>
+        </ModalProvider>
+      </ThemeProvider>
     </>
   )
 }

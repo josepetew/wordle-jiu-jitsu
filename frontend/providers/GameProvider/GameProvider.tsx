@@ -1,79 +1,168 @@
-// context/todoContext.tsx
 import {
   FC,
   PropsWithChildren,
   createContext,
   useEffect,
-  useMemo,
   useState,
 } from 'react'
 import {
   IGameContext,
   SequenceItemStatus,
+  Rounds,
   SequenceResponse,
   SequenceItem,
-  CurrentRoundSequence,
-  PreviousRoundsSequence,
   RoundState,
+  ResultModal,
+  GameStatus,
+  Attempts,
 } from '@/types/Game'
 import useSWRImmutable from 'swr/immutable'
-
-export const GameContext = createContext<IGameContext | null>(null)
+import { api } from '@/api'
 
 const MAX_ATTEMPS = 7
 
+export const GameContext = createContext<IGameContext | null>({
+  start: null,
+  finish: null,
+  rounds: [],
+  setSequenceItem: () => {},
+  setResultModal: () => {},
+  submit: async () => {},
+  resultModal: { isOpen: false },
+  updateLastRoundSequence: () => [],
+  gameStatus: GameStatus.PLAYING,
+  isSubmitting: false,
+  attempts: { max: MAX_ATTEMPS, count: 1 },
+})
+
+const getGameStatus = (rounds: Rounds) => {
+  const lastRound = rounds[rounds.length - 1]
+  const isGameFinished = rounds.length === MAX_ATTEMPS
+
+  if (lastRound?.isWin) {
+    return GameStatus.WON
+  }
+  if (isGameFinished) {
+    if (!lastRound?.isWin) {
+      return GameStatus.LOST
+    }
+  }
+  return GameStatus.PLAYING
+}
+
 const GameProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [nrOfAttempts, setNrOfAttempts] = useState(0)
-  const [previousRounds, setPreviousRounds] = useState<PreviousRoundsSequence>()
-  const [roundState, setRoundState] = useState<RoundState>()
+  const [rounds, setRounds] = useState<Rounds>([])
+  const [isSubmitting, setIsSumbitting] = useState(false)
+  const [roundState, setRoundState] = useState<RoundState>({})
   const [sequenceData, setSequenceData] = useState<SequenceResponse>()
-
-  const currentRoundSequence =
-    roundState &&
-    (Object.keys(roundState).map(
-      (item, key) => roundState[key]
-    ) as CurrentRoundSequence)
-
-  const { data, error } = useSWRImmutable<SequenceResponse>(
-    `${process.env.NEXT_PUBLIC_API_URL}/sequence`
+  const [gameStatus, setGameStatus] = useState<GameStatus>(
+    getGameStatus(rounds)
   )
+  const [resultModal, setResultModal] = useState<ResultModal>({
+    isOpen: false,
+    message: '',
+  })
+  const [attempts, setAttempts] = useState<Attempts>({
+    max: MAX_ATTEMPS,
+    count: 1,
+  })
+
+  const { data, error } = useSWRImmutable<SequenceResponse>(`/sequence`)
 
   useEffect(() => {
     if (data && !sequenceData) {
       setSequenceData(data)
 
-      const roundState = data.sequence_to_fill.reduce<RoundState>(
-        (agg, value, index) => {
-          agg[index] = { value: null, label: null }
-          return agg
-        },
-        {}
-      )
+      const round = {
+        sequence: data.sequence_to_fill.map((i) => ({
+          ...i,
+          status: SequenceItemStatus.PRISTINE,
+        })),
+      }
 
+      setRounds([round])
       setRoundState(roundState)
     }
   }, [data])
 
-  const setSequenceItem = (index: number, value: SequenceItem) => {
+  const setSequenceItem = (index: number, value: SequenceItem | null) => {
     setRoundState({ ...roundState, [index]: value })
   }
 
-  const availableSequenceItems =
-    data?.sequence_to_fill
-      .filter(
-        (item) => !currentRoundSequence?.map((i) => i.value).includes(item)
+  const updateLastRoundSequence = (sequence: SequenceItem[]) => {
+    const roundsCopy = [...rounds]
+    const lastRound = roundsCopy.pop()
+    if (lastRound) {
+      const isWin = sequence.every(
+        (item) => item.status === SequenceItemStatus.CORRECT
       )
-      .map((value) => ({ label: value, value: value } as SequenceItem)) ?? []
+      const updatedRounds = [...roundsCopy, { isWin, sequence: sequence }]
+      setRounds(updatedRounds)
+      return updatedRounds
+    }
+    return rounds
+  }
+
+  const submit = async () => {
+    setIsSumbitting(true)
+
+    return new Promise(async (resolve, reject) => {
+      const lastRound = rounds[rounds.length - 1]
+      try {
+        const result = await api
+          .post<SequenceItem[]>(
+            '/validateSequence',
+            lastRound.sequence.map((item) => ({ id: item.id, name: item.name }))
+          )
+          .then((res) => res.data)
+
+        const updatedRounds = updateLastRoundSequence(result)
+        const gameStatus = getGameStatus(updatedRounds)
+        setGameStatus(gameStatus)
+
+        if (gameStatus === GameStatus.WON) {
+          setResultModal({ isOpen: true })
+          setIsSumbitting(false)
+          resolve(true)
+          return
+        }
+
+        if (gameStatus === GameStatus.LOST) {
+          setResultModal({ isOpen: true })
+          setIsSumbitting(false)
+          resolve(true)
+          return
+        }
+
+        setTimeout(() => {
+          setAttempts({ ...attempts, count: attempts.count + 1 })
+          setRounds([...updatedRounds, lastRound])
+          setTimeout(() => {
+            setIsSumbitting(false)
+            resolve(true)
+          }, 20) // Wait till round was added to the DOM
+        }, 1000) // Wait 1 second before sliding next card in
+      } catch (error) {
+        setIsSumbitting(false)
+        reject()
+      }
+    })
+  }
 
   return (
     <GameContext.Provider
       value={{
-        start: data?.start,
-        finish: data?.finish,
-        previousRounds: previousRounds,
-        currentRoundSequence: currentRoundSequence,
-        availableSequenceItems,
+        start: data?.start ?? null,
+        finish: data?.finish ?? null,
+        rounds: rounds ?? null,
+        resultModal,
         setSequenceItem,
+        updateLastRoundSequence,
+        setResultModal,
+        submit,
+        attempts,
+        gameStatus,
+        isSubmitting,
       }}
     >
       {children}
