@@ -60,7 +60,6 @@ const GameProvider: FC<PropsWithChildren> = ({ children }) => {
   )
   const [resultModal, setResultModal] = useState<ResultModal>({
     isOpen: false,
-    message: '',
   })
   const [attempts, setAttempts] = useState<Attempts>({
     max: MAX_ATTEMPS,

@@ -33,7 +33,6 @@ export type RoundState = { [key: number]: SequenceItem | null }
 
 export interface ResultModal {
   isOpen: boolean
-  message?: string
 }
 
 export interface Attempts {
