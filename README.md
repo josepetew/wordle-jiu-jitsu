@@ -71,7 +71,7 @@ npm run dev
 ```
 To compile new JS you just have to run
 ```
-npm run export
+npm run build
 ```
 Note using:
 node version 19.2.0
