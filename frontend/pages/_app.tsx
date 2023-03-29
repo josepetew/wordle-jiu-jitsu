@@ -1,7 +1,7 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { SWRConfig } from 'swr'
-import axios from 'axios'
+import { api } from '@/api'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
       value={{
         refreshInterval: 0,
         fetcher: (url) =>
-          axios
+          api
             .get(url)
             .then((res) => {
               return res.data

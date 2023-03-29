@@ -2,30 +2,55 @@ export enum SequenceItemStatus {
   CORRECT = 'CORRECT',
   MISSPLACED = 'MISSPLACED',
   INVALID = 'INVALID',
-}
-
-export interface SequenceResponse {
-  true_sequence: string[]
-  sequence_to_fill: string[]
-  start: string
-  finish: string
+  PRISTINE = 'PRISTINE',
 }
 
 export interface SequenceItem {
-  value: string | null
-  label: string | null
-  status?: SequenceItemStatus
+  name: string | null
+  id: number | null
+  status: SequenceItemStatus | null
 }
 
-export type CurrentRoundSequence = SequenceItem[]
-export type PreviousRoundsSequence = SequenceItem[][]
-export type RoundState = { [key: number]: SequenceItem }
+export enum GameStatus {
+  WON = 'WON',
+  LOST = 'LOST',
+  PLAYING = 'PLAYING',
+}
+
+export interface SequenceResponse {
+  true_sequence: SequenceItem[]
+  sequence_to_fill: SequenceItem[]
+  start: SequenceItem
+  finish: SequenceItem
+}
+
+export interface Round {
+  sequence: SequenceItem[]
+  isWin?: boolean
+}
+export type Rounds = Round[]
+export type RoundState = { [key: number]: SequenceItem | null }
+
+export interface ResultModal {
+  isOpen: boolean
+  message?: string
+}
+
+export interface Attempts {
+  max: number
+  count: number
+}
 
 export type IGameContext = {
-  start?: string
-  finish?: string
-  previousRounds?: PreviousRoundsSequence
-  currentRoundSequence?: CurrentRoundSequence
-  availableSequenceItems: SequenceItem[]
-  setSequenceItem: (index: number, value: SequenceItem) => void
+  start: SequenceItem | null
+  finish: SequenceItem | null
+  rounds: Rounds
+  updateLastRoundSequence: (sequence: SequenceItem[]) => Rounds | undefined
+  setSequenceItem: (index: number, value: SequenceItem | null) => void
+  submit: () => Promise<unknown>
+  setResultModal: (modal: ResultModal) => void
+  resultModal: ResultModal
+  attempts: Attempts
+  gameStatus: GameStatus
+  isSubmitting: boolean
 }
