@@ -7,6 +7,7 @@ from django.conf import settings
 from .models import Move, MoveSequence
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
+from rest_framework.parsers import JSONParser
 
 index_file_path = os.path.join(settings.REACT_APP_DIR, 'out', 'index.html')
 def index(request):
@@ -31,11 +32,15 @@ def _get_id(x):
     except:
         pass
 
-@api_view(["GET"])
-def get_sequence_items(self, **kwargs):
-    data = {}
-    sequence = MoveSequence.objects.get(game_id=1)
-    positions= [
+def to_dict(x):
+    try:
+        return {"id": x.id, "name": x.name}
+    except:
+        pass
+    
+def get_sequence(game_id):
+    sequence = MoveSequence.objects.get(game_id=game_id)
+    positions = [
         sequence.starting_position,
         sequence.position_2, 
         sequence.position_3,
@@ -47,21 +52,33 @@ def get_sequence_items(self, **kwargs):
         sequence.position_9,
         sequence.ending_position,
     ]
-    sequence_data, sequence_ids = [], []
-    for p in positions:
-        p0 = _get_name(p)
-        p1 = _get_id(p)
-        if p:
-            sequence_data.append(p0)
-            sequence_ids.append(p1)
-    
-    
-    sequence_to_fill = sequence_data[1:-1].copy()
+    complete_sequence = [to_dict(obj) for obj in positions]
+    sequence_to_fill = complete_sequence[1:-1].copy()
     random.shuffle(sequence_to_fill)
+    return complete_sequence, sequence_to_fill
+
+@api_view(["GET"])
+def get_sequence_items(self, **kwargs):
+    complete_sequence, sequence_to_fill = get_sequence(game_id=1)
     data = {
-        'start': sequence_data[0],
-        'finish': sequence_data[-1],
-        'true_sequence': sequence_data,
-        'sequence_to_fill': sequence_to_fill,
+        'start': complete_sequence[0],
+        'finish': complete_sequence[-1],
+        'sequence_to_fill': sequence_to_fill
     }
     return JsonResponse(data)
+
+@api_view(["POST"])
+def validate_sequence(request):
+   user_sequence = JSONParser().parse(request)
+   user_sequence_copy = user_sequence.copy()
+   complete_sequence, sequence_to_fill = get_sequence(game_id=1)
+
+   expected_sequence = complete_sequence[1:-1]
+   for idx, user_sequence_item in enumerate(user_sequence_copy):
+    expected_sequence_item = expected_sequence[idx]
+    if(user_sequence_item['id'] == expected_sequence_item['id']):
+        user_sequence_item['status'] = 'CORRECT'
+    else:
+        user_sequence_item['status'] = 'MISSPLACED'
+    
+   return JsonResponse(user_sequence_copy, safe=False)
