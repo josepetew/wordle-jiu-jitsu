@@ -2,7 +2,7 @@ databases:
   - name: wordlejj
     databaseName: wordlejj
     user: wordlejj
-    plan: free
+    plan: starter
 
 services:
   - type: web
