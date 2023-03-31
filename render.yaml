@@ -9,7 +9,6 @@ services:
     name: wordlejj
     env: python
     plan: free
-    buildCommand: "./build.sh"
     startCommand: "gunicorn wjj.wsgi:application"
     envVars:
       - key: DATABASE_URL
