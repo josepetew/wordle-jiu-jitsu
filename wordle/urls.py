@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views import index, get_sequence_items, validate_sequence
-
+from django.conf.urls import include
 
 urlpatterns = [
      path("", index, name="index"),
      path('sequence', get_sequence_items),
      path('validateSequence', validate_sequence),
+     path('api-auth/', include('rest_framework.urls'))
 
 ]

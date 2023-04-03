@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "wordle.apps.WordleConfig",
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -136,12 +136,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-STATIC_URL = '/_next/'
-REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
-STATICFILES_DIRS = [
-    os.path.join(REACT_APP_DIR, 'out', '_next'),
-]
-STATIC_ROOT = os.path.join(REACT_APP_DIR, 'out')
+
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+# ]
 
 if not DEBUG:
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

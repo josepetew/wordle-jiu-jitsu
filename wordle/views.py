@@ -1,4 +1,3 @@
-import json
 import os
 import random
 import logging
@@ -9,28 +8,8 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 
-index_file_path = os.path.join(settings.REACT_APP_DIR, 'out', 'index.html')
 def index(request):
-    try:
-        with open(index_file_path) as f:
-            return HttpResponse(f.read())
-    except FileNotFoundError:
-        logging.exception('Production build of app not found')
-        return HttpResponse(
-            status=501,
-        )
-
-def _get_name(x):
-    try:
-        return x.name
-    except:
-        pass
-
-def _get_id(x):
-    try:
-        return x.id
-    except:
-        pass
+    return HttpResponse('hello world')
 
 def to_dict(x):
     try:
