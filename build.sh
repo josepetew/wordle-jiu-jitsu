@@ -3,11 +3,22 @@
 
 set -o errexit
 
-poetry install
+# Build frontend
 
 cd frontend && npm i && npm run build
 
 cd ..
 
+# Setup backend
+
+poetry install
+
 python manage.py migrate 
+
+# Create user if it doesn't exist
+
+if [[ $CREATE_SUPERUSER ]];
+then
+  python manage.py createsuperuser --no-input
+fi
 
