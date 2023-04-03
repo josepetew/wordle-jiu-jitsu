@@ -5,13 +5,13 @@ databases:
     plan: starter
 
 services:
-  - type: static
+  - type: web
     name: next-js
     env: static
     plan: starter
     rootDir: "frontend"
     buildCommand: npm i; npm run build
-    staticPublishPath: ./out
+    staticPublishPath: out
     autoDeploy: false
     envVars:
     - key: NODE_ENV
