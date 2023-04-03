@@ -7,5 +7,7 @@ poetry install
 
 cd frontend && npm i && npm run build
 
+cd ..
+
 python manage.py migrate 
 
