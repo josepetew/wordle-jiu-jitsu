@@ -20,7 +20,7 @@ services:
     name: wordlejj
     env: python
     plan: free
-    rootDir: ./frontend
+    rootDir: ./backend
     buildCommand: "./build.sh"
     startCommand: "gunicorn wjj.wsgi:application"
     envVars:
