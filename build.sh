@@ -5,7 +5,7 @@ set -o errexit
 
 poetry install
 
-cd frontend && npm run build
+cd frontend && npm i && npm run build
 
 python manage.py migrate 
 
