@@ -60,30 +60,30 @@ https://wordlejj.onrender.com/
 
 
 # The Frontend
-The FE was developed largely based on SaaS Pegasus' guide on React and Django
-available [here](https://www.saaspegasus.com/guides/modern-javascript-for-django-developers/).
 
 NOTE: Make sure django server is running before running the frontend.
 
-To get things behaving you simply have to run:
+To run locally use:
 ```
 npm i
 npm run dev
 ```
+
 To compile new JS you just have to run
 ```
 npm run build
 ```
-Note using:
-node version 19.2.0
-npm version 8.19.3
+
+To run compiled JS
 ```
-nvm use 19.2.0
+npm run start
 ```
 
-To compile everything from the FE simply run: 
+Note using:
+node version v19.6.0
+npm version 9.4.0
 ```
-npm run dev && python manage.py collectstatic --no-input
+nvm use 19.6.0
 ```
 
 ## Thanks
