@@ -1,5 +1,5 @@
 databases:
-  - name: wordlejj-db
+  - name: wordlejj
     databaseName: wordlejj
     user: wordlejj
     plan: starter
