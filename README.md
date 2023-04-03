@@ -1,7 +1,8 @@
 # wordle-jiu-jitsu
 A wordle like web app to improve your Brazilian jiu-jitsu.
 
-To get started simply run using python 3.7.1 and poetry version 1.4.1
+To get started simply run using python 3.7.1 and poetry version 1.1.14
+which is the only version compatible with render.
 ```
 export $(xargs < .env)
 poetry install

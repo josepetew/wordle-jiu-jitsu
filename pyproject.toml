@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "wjj"
+name = "wordle-jiu-jitsu"
 version = "0.1.0"
 description = ""
 authors = ["Francisco Javier Arceo <franciscojavierarceo@users.noreply.github.com>"]
@@ -15,8 +15,6 @@ crispy-bootstrap5 = "^0.6"
 celery = "^5.2.7"
 redis = "^4.3.4"
 pytest-django = "^4.5.2"
-djangorestframework = "^3.14.0"
-django-cors-headers = "^3.14.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
