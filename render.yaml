@@ -1,14 +1,26 @@
 databases:
-  - name: wordlejj
+  - name: wordlejj-db
     databaseName: wordlejj
     user: wordlejj
     plan: starter
 
 services:
   - type: web
-    name: wordlejj
+    name: wordlejj-fe
+    env: static
+    plan: starter
+    rootDir: ./frontend
+    buildCommand: npm i; npm run build
+    staticPublishPath: out
+    autoDeploy: false
+    envVars:
+    - key: NODE_ENV
+      value: production
+  - type: web
+    name: wordlejj-be
     env: python
     plan: free
+    rootDir: ./backend
     buildCommand: "./build.sh"
     startCommand: "gunicorn wjj.wsgi:application"
     envVars:
@@ -20,4 +32,3 @@ services:
         generateValue: true
       - key: WEB_CONCURRENCY
         value: 4
-
