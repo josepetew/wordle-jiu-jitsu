@@ -9,7 +9,7 @@ services:
     name: next-js
     env: static
     plan: starter
-    rootDir: frontend
+    rootDir: "frontend"
     buildCommand: npm i; npm run build
     staticPublishPath: ./out
     autoDeploy: false
@@ -20,7 +20,7 @@ services:
     name: wordlejj
     env: python
     plan: free
-    rootDir: backend
+    rootDir: "backend"
     buildCommand: "./build.sh"
     startCommand: "gunicorn wjj.wsgi:application"
     envVars:
