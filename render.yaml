@@ -6,9 +6,21 @@ databases:
 
 services:
   - type: web
+    name: next-js
+    env: static
+    plan: starter
+    rootDir: frontend
+    buildCommand: npm i; npm run build
+    staticPublishPath: ./out
+    autoDeploy: false
+    envVars:
+    - key: NODE_ENV
+      value: production
+  - type: web
     name: wordlejj
     env: python
     plan: free
+    rootDir: backend
     buildCommand: "./build.sh"
     startCommand: "gunicorn wjj.wsgi:application"
     envVars:
@@ -20,13 +32,3 @@ services:
         generateValue: true
       - key: WEB_CONCURRENCY
         value: 4
-  - type: web
-    name: next-js
-    env: node
-    plan: starter
-    buildCommand: npm i; npm run build
-    startCommand: npm start
-    autoDeploy: false
-    envVars:
-    - key: NODE_ENV
-      value: production
