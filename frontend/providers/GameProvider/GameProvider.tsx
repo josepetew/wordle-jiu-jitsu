@@ -29,7 +29,7 @@ export const GameContext = createContext<IGameContext | null>({
   setResultModal: () => {},
   submit: async () => {},
   resultModal: { isOpen: false },
-  updateLastRoundSequence: () => [],
+  reorder: () => {},
   gameStatus: GameStatus.PLAYING,
   isSubmitting: false,
   attempts: { max: MAX_ATTEMPS, count: 1 },
@@ -89,29 +89,60 @@ const GameProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   const updateLastRoundSequence = (sequence: SequenceItem[]) => {
-    const roundsCopy = [...rounds]
-    const lastRound = roundsCopy.pop()
-    if (lastRound) {
-      const isWin = sequence.every(
-        (item) => item.status === SequenceItemStatus.CORRECT
-      )
-      const updatedRounds = [...roundsCopy, { isWin, sequence: sequence }]
-      setRounds(updatedRounds)
-      return updatedRounds
-    }
-    return rounds
+    rounds.pop()
+    const isWin = sequence.every(
+      (item) => item.status === SequenceItemStatus.CORRECT
+    )
+
+    const withCorrectIndex = sequence.map((item, index) => ({
+      ...item,
+      correctIndex: item.status === SequenceItemStatus.CORRECT ? index : null,
+    }))
+
+    const updatedRounds = [
+      ...rounds,
+      {
+        isWin,
+        sequence: withCorrectIndex,
+      },
+    ]
+    setRounds(updatedRounds)
+
+    return updatedRounds
+  }
+
+  const reorder = (sequence: SequenceItem[]) => {
+    rounds.pop()
+    const isFirstRound = rounds.length < 1
+
+    const validatedSequence = sequence.map((item, index) => ({
+      ...item,
+      status:
+        item.correctIndex === index
+          ? SequenceItemStatus.CORRECT
+          : isFirstRound
+          ? SequenceItemStatus.PRISTINE
+          : SequenceItemStatus.MISSPLACED,
+    }))
+
+    const updatedRounds = [...rounds, { sequence: validatedSequence }]
+
+    setRounds(updatedRounds)
   }
 
   const submit = async () => {
     setIsSumbitting(true)
 
     return new Promise(async (resolve, reject) => {
-      const lastRound = rounds[rounds.length - 1]
+      const lastRound = rounds.at(-1)
       try {
         const result = await api
           .post<SequenceItem[]>(
             '/validateSequence',
-            lastRound.sequence.map((item) => ({ id: item.id, name: item.name }))
+            lastRound?.sequence.map((item) => ({
+              id: item.id,
+              name: item.name,
+            }))
           )
           .then((res) => res.data)
 
@@ -133,14 +164,15 @@ const GameProvider: FC<PropsWithChildren> = ({ children }) => {
           return
         }
 
+        setAttempts({ ...attempts, count: attempts.count + 1 })
+        setRounds(updatedRounds)
+
         setTimeout(() => {
-          setAttempts({ ...attempts, count: attempts.count + 1 })
-          setRounds([...updatedRounds, lastRound])
-          setTimeout(() => {
-            setIsSumbitting(false)
-            resolve(true)
-          }, 20) // Wait till round was added to the DOM
-        }, 1000) // Wait 1 second before sliding next card in
+          const copyRound = updatedRounds[updatedRounds.length - 1]
+          setRounds([...updatedRounds, copyRound]) // add new card
+          resolve(true)
+          setIsSumbitting(false)
+        }, 500) // Wait before sliding next card in
       } catch (error) {
         setIsSumbitting(false)
         reject()
@@ -156,9 +188,9 @@ const GameProvider: FC<PropsWithChildren> = ({ children }) => {
         rounds: rounds ?? null,
         resultModal,
         setSequenceItem,
-        updateLastRoundSequence,
         setResultModal,
         submit,
+        reorder,
         attempts,
         gameStatus,
         isSubmitting,

@@ -2,6 +2,19 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { SWRConfig } from 'swr'
 import { api } from '@/api'
+import { Sedgwick_Ave_Display, Catamaran } from '@next/font/google'
+
+const sedgwickAveDisplay = Sedgwick_Ave_Display({
+  weight: ['400'],
+  style: ['normal'],
+  subsets: ['latin'],
+})
+
+const catamaran = Catamaran({
+  weight: ['500'],
+  style: ['normal'],
+  subsets: ['latin'],
+})
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -23,6 +36,12 @@ export default function App({ Component, pageProps }: AppProps) {
             }),
       }}
     >
+      <style jsx global>{`
+        :root {
+          --sedgwick-ave-display-font: ${sedgwickAveDisplay.style.fontFamily};
+          --catamaran-font: ${catamaran.style.fontFamily};
+        }
+      `}</style>
       <Component {...pageProps} />
     </SWRConfig>
   )

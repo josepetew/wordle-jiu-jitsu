@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { Game } from '@/components/Game/Game'
 import GameProvider from '@/providers/GameProvider/GameProvider'
 import { ThemeProvider } from 'styled-components'
-import { defaultTheme } from '@/theme'
+import { theme } from '@/theme'
 import { ModalProvider } from 'styled-react-modal'
 
 export default function Index() {
@@ -14,7 +14,7 @@ export default function Index() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ThemeProvider theme={defaultTheme}>
+      <ThemeProvider theme={theme}>
         <ModalProvider>
           <GameProvider>
             <Game />

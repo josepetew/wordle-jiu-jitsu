@@ -1,4 +1,4 @@
-import { Fragment, useRef } from 'react'
+import { Fragment, useCallback, useEffect, useRef } from 'react'
 import {
   Main,
   Header,
@@ -6,6 +6,10 @@ import {
   Spacer,
   GameContainer,
   RoundsContainer,
+  RoundCount,
+  Subtitle,
+  GameDetails,
+  SubmitButton,
 } from './Game.styles'
 import { useGame } from '@/hooks/useGame'
 import { SequenceItem } from './shared/SequenceItem/SequenceItem'
@@ -14,33 +18,45 @@ import { ResultModal } from './shared/ResultModal/ResultModal'
 import { GameStatus } from '@/types/Game'
 
 export const Game = () => {
-  const scrollEnd = useRef<null | HTMLDivElement>(null)
+  const ref = useRef<null | HTMLDivElement>(null)
   const {
     start,
     finish,
     submit,
     rounds,
-    updateLastRoundSequence,
     attempts,
     isSubmitting,
+    reorder,
     gameStatus,
   } = useGame()
+
+  useEffect(() => {
+    scrollToEnd()
+  }, [rounds])
+
+  const scrollToEnd = useCallback(() => {
+    if (ref.current) {
+      const scrollEnd = ref.current.scrollWidth - ref.current.clientWidth
+      ref.current.scroll({
+        left: scrollEnd,
+        behavior: 'smooth',
+      })
+    }
+  }, [ref])
 
   return (
     <>
       <Main>
-        <Header>WORDLE JITSU</Header>
-        {!rounds?.length && (
-          <p>No game found, make django sure server is running</p>
-        )}
-        <Spacer />
-
-        <pre>
-          {attempts.count}/{attempts.max}
-        </pre>
-
         <GameContainer>
-          <RoundsContainer $nrOfItems={rounds.length + 1}>
+          <Header>WORDLE JITSU</Header>
+          <GameDetails>
+            <Subtitle>Arrange the sequence in the correct order</Subtitle>
+            <RoundCount>
+              {attempts.count} / {attempts.max}
+            </RoundCount>
+          </GameDetails>
+
+          <RoundsContainer ref={ref} $nrOfItems={rounds.length + 1}>
             {rounds.length > 0 &&
               rounds.map((roundSequence, index) => (
                 <SequenceContainer key={index} $index={index}>
@@ -48,45 +64,42 @@ export const Game = () => {
                   <Spacer />
                   <Reorder.Group
                     values={roundSequence?.sequence}
-                    onReorder={updateLastRoundSequence}
+                    onReorder={reorder}
                   >
                     {roundSequence?.sequence.map(
-                      (sequenceItem, sequenceItemIndex) => (
-                        <Fragment key={`${sequenceItem.id}`}>
-                          <SequenceItem
-                            draggable={index === rounds.length - 1}
-                            sequenceItem={sequenceItem}
-                            sequenceItemIndex={sequenceItemIndex}
-                          />
-                          <Spacer />
-                        </Fragment>
-                      )
+                      (sequenceItem, sequenceItemIndex) => {
+                        const isLastCard = index === rounds.length - 1
+                        return (
+                          <Fragment key={`${sequenceItem.id}`}>
+                            <SequenceItem
+                              draggable={isLastCard}
+                              sequenceItem={sequenceItem}
+                              sequenceItemIndex={sequenceItemIndex}
+                            />
+                            <Spacer />
+                          </Fragment>
+                        )
+                      }
                     )}
                   </Reorder.Group>
                   <SequenceItem sequenceItem={finish} isAtEdge />
                 </SequenceContainer>
               ))}
-
-            <SequenceContainer>
-              <div ref={scrollEnd}></div>
-            </SequenceContainer>
           </RoundsContainer>
+          <Spacer />
+          <Spacer />
+          <SubmitButton
+            disabled={isSubmitting}
+            onClick={() => {
+              if (!isSubmitting) {
+                submit()
+              }
+            }}
+          >
+            {gameStatus === GameStatus.PLAYING && 'SUBMIT'}
+            {gameStatus !== GameStatus.PLAYING && 'SEE RESULTS'}
+          </SubmitButton>
         </GameContainer>
-
-        <button
-          disabled={gameStatus !== GameStatus.PLAYING}
-          onClick={() => {
-            if (!isSubmitting) {
-              submit().then(() => {
-                scrollEnd?.current?.scrollIntoView({
-                  behavior: 'smooth',
-                })
-              })
-            }
-          }}
-        >
-          Submit
-        </button>
         <ResultModal />
       </Main>
     </>
