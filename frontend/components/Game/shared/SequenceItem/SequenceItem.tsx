@@ -1,10 +1,16 @@
 import { FC } from 'react'
-import { SequenceItemContainer, StyledReorderItem } from './SequenceItem.styles'
-import { SequenceItem as SequenceItemType } from '@/types/Game'
-import { useGame } from '@/hooks/useGame'
-import { Reorder, useMotionValue, useDragControls } from 'framer-motion'
+import {
+  SequenceItemContainer,
+  StyledReorderItem,
+  SequenceItemText,
+} from './SequenceItem.styles'
+import {
+  SequenceItemStatus,
+  SequenceItem as SequenceItemType,
+} from '@/types/Game'
+import { useMotionValue } from 'framer-motion'
 import { useRaisedShadow } from '@/hooks/useRaisedShadow'
-
+import { ReorderIcon } from './ReorderIcon'
 interface SequenceItem {
   editable?: boolean
   draggable?: boolean
@@ -14,7 +20,6 @@ interface SequenceItem {
 }
 
 export const SequenceItem: FC<SequenceItem> = ({
-  editable = false,
   sequenceItem,
   sequenceItemIndex,
   draggable = false,
@@ -25,7 +30,12 @@ export const SequenceItem: FC<SequenceItem> = ({
 
   const comp = (
     <SequenceItemContainer $isAtEdge={isAtEdge} $status={sequenceItem?.status}>
-      {sequenceItem?.name}
+      <SequenceItemText>{sequenceItem?.name}</SequenceItemText>
+      {draggable && (
+        <ReorderIcon
+          dark={sequenceItem?.status !== SequenceItemStatus.PRISTINE}
+        />
+      )}
     </SequenceItemContainer>
   )
 

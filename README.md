@@ -3,6 +3,12 @@ A wordle like web app to improve your Brazilian jiu-jitsu.
 
 To get started simply run using python 3.7.1 and poetry version 1.1.14
 which is the only version compatible with render.
+
+First change dir into /backend
+```
+cd backend
+```
+Then
 ```
 export $(xargs < .env)
 poetry install

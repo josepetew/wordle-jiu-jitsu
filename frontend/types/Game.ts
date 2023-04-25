@@ -1,7 +1,6 @@
 export enum SequenceItemStatus {
   CORRECT = 'CORRECT',
   MISSPLACED = 'MISSPLACED',
-  INVALID = 'INVALID',
   PRISTINE = 'PRISTINE',
 }
 
@@ -9,6 +8,7 @@ export interface SequenceItem {
   name: string | null
   id: number | null
   status: SequenceItemStatus | null
+  correctIndex?: number | null
 }
 
 export enum GameStatus {
@@ -44,7 +44,7 @@ export type IGameContext = {
   start: SequenceItem | null
   finish: SequenceItem | null
   rounds: Rounds
-  updateLastRoundSequence: (sequence: SequenceItem[]) => Rounds | undefined
+  reorder: (sequence: SequenceItem[]) => void
   setSequenceItem: (index: number, value: SequenceItem | null) => void
   submit: () => Promise<unknown>
   setResultModal: (modal: ResultModal) => void
