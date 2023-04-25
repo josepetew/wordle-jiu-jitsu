@@ -30,9 +30,7 @@ export const SequenceItem: FC<SequenceItem> = ({
 
   const comp = (
     <SequenceItemContainer $isAtEdge={isAtEdge} $status={sequenceItem?.status}>
-      <SequenceItemText>
-        {sequenceItem?.name} and a very loing text because it can be grewt
-      </SequenceItemText>
+      <SequenceItemText>{sequenceItem?.name}</SequenceItemText>
       {draggable && (
         <ReorderIcon
           dark={sequenceItem?.status !== SequenceItemStatus.PRISTINE}
