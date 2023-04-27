@@ -2,7 +2,7 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { SWRConfig } from 'swr'
 import { api } from '@/api'
-import { Sedgwick_Ave_Display, Catamaran } from '@next/font/google'
+import { Sedgwick_Ave_Display, Catamaran } from 'next/font/google'
 
 const sedgwickAveDisplay = Sedgwick_Ave_Display({
   weight: ['400'],
